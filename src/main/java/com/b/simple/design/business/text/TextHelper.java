@@ -6,8 +6,10 @@ public class TextHelper {
 	public String swapLastTwoCharacters(String str) {
 		String reverseStr;
 		int strLen = str.length();
-		if (strLen < 2) return str;
-		else if ( strLen == 2){
+		if (strLen < 2) {
+			return str;
+		}
+		else if( strLen == 2){
 			reverseStr = getReverseStr(str, strLen);
 			return reverseStr;
 		}
