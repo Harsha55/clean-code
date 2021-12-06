@@ -5,40 +5,43 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 public class GildedRoseADefaultItemTest {
-	/**
-	 * Method to test the variation in quality of the item for the non expired
-	 * Item.
-	 * 
-	 * The quality should decrease by 1 when the item is not expired
-	 * and sell in should decrease by 1.
-	 * 
-	 */
+
+	static final int NOT_EXPIRED_ITEM_SELLIN = 15;
+	static final int ITEM_QUALITY = 3;
+	static final String DEFAULT_ITEM = "DEFAULT_ITEM";
+	static final int EXPIRED_ITEM_SELLIN = -1;
+
 	@Test
-	public void testUpdateQualityDefault1() {
-		Item item = new Item("DEFAULT_ITEM", 15, 3);
-		Item[] items = new Item[] { item };
-		GildedRose app = new GildedRose(items);
+	public void defaultNotExpiredItemQualityDecreasesBy1() {
+		GildedRose app = createGildedRose(DEFAULT_ITEM, NOT_EXPIRED_ITEM_SELLIN, ITEM_QUALITY);
+
 		app.updateQuality();
-		assertEquals("DEFAULT_ITEM", app.items[0].name);
-		assertEquals(14, app.items[0].sellIn);
-		assertEquals(2, app.items[0].quality);
+
+		Item expected = new Item(DEFAULT_ITEM, NOT_EXPIRED_ITEM_SELLIN -1, ITEM_QUALITY-1);
+		verifyValues(app.items[0],expected);
 	}
 
-	/**
-	 * Method to test the variation in quality of the item for the non expired
-	 * Item.
-	 * 
-	 * The quality should decrease by 2 when the item is expired(Sell in  < 0) and sell in should decrease by 1.
-	 * 
-	 */
 	@Test
-	public void testUpdateQualityForExpiredItem() {
-		Item item = new Item("DEFAULT_ITEM", -1, 3);
-		Item[] items = new Item[] { item };
-		GildedRose app = new GildedRose(items);
+	public void expiredItemQualityDecreasesBy2() {
+		GildedRose app = createGildedRose(DEFAULT_ITEM, EXPIRED_ITEM_SELLIN, ITEM_QUALITY);
+
 		app.updateQuality();
-		assertEquals("DEFAULT_ITEM", app.items[0].name);
-		assertEquals(-2, app.items[0].sellIn);
-		assertEquals(1, app.items[0].quality);
+
+		Item expected = new Item(DEFAULT_ITEM, EXPIRED_ITEM_SELLIN -1, ITEM_QUALITY-2);
+		verifyValues(app.items[0],expected);
 	}
+
+	private GildedRose createGildedRose(String defaultItem, int itemSellin, int itemQuality) {
+		Item item = new Item(defaultItem, itemSellin, itemQuality);
+		Item[] items = new Item[]{item};
+		return new GildedRose(items);
+	}
+
+	private void verifyValues(Item actualItemValues,Item expectedValue) {
+		assertEquals(expectedValue.name, actualItemValues.name);
+		assertEquals(expectedValue.sellIn, actualItemValues.sellIn);
+		assertEquals(expectedValue.quality, actualItemValues.quality);
+	}
+
+
 }
