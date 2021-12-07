@@ -4,20 +4,11 @@ package com.b.simple.design.business.text;
 public class TextHelper {
 
 	public String swapLastTwoCharacters(String str) {
-		String reverseStr;
-		int strLen = str.length();
-		if (strLen < 2) {
-			return str;
-		}
-		else if( strLen == 2){
-			reverseStr = getReverseStr(str, strLen);
-			return reverseStr;
-		}
-		else{
-			reverseStr = str.substring(0,strLen - 2);
-			reverseStr += getReverseStr(str, strLen);
-		}
-		return reverseStr;
+		char lastChar = str.charAt(-1);
+		char secondLastChar = str.charAt(-1);
+		String startingString = str.substring(0,str.length()-2);
+		String finalstring = startingString + lastChar + secondLastChar;
+		return finalstring;
 	}
 
 	private String getReverseStr(String str, int strLen) {
